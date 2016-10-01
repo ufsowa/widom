@@ -1,0 +1,43 @@
+#!/usr/bin/env gnuplot
+
+k=8.617332478E-5
+T=1000.0
+B=k*T
+
+f(x)=exp(-B*x)
+u(x)=log(x/(1-x))
+
+# derivative functions.  Return 1/0 for first point, otherwise delta y or (delta y)/(delta x)
+d(y) = ($0 == 0) ? (y1 = y, 1/0) : (y2 = y1, y1 = y, y1-y2)
+d2(x,y) = ($0 == 0) ? (x1 = x, y1 = y, 1/0) : (x2 = x1, x1 = x, y2 = y1, y1 = y, (y1-y2)/(x1-x2))
+dx=0.25
+s(x,y)=x/(x+y)
+
+print B,f(-5)
+
+
+#plot 'total.dat' u ($3/($3+$4)):9 t 'u1','total.dat' u ($3/($3+$4)):11 t 'u2'
+
+#plot 'all.dat' u 3:($1), 'all.dat' u 3:($2), 'all.dat' u 3:(u($3)*B) w lp
+#plot 'eq_path.dat' u 1:2
+#plot 'total.dat' u ($3/($3+$4)):(d($9-$11)) t 'du'
+
+#plot 'total.widom' u 9:11: t 'w', 'total.widom1' u 9:11 t 'w1'
+
+unset key
+set palette rgbformulae 33,13,10
+
+
+plot "total.widom" using 9:11:10:12 w xyerrorbars axes x1y1 ,"total.widom1" using 9:11:10:12 w xyerrorbars axes x1y1,\
+    'total.widom' u 9:11:($3/($3+$4)) w p pt 5 palette axes x1y1, 'total.widom1' u 9:11:($3/($3+$4)) w p pt 7 palette axes x1y1,\
+
+
+
+
+
+#plot 'total.widom' u ($3/($3+$4)):(d($9-$11)) t 'w', 'total.widom1' u ($3/($3+$4)):(d($9-$11)) t 'w1'
+
+#plot 'total.dat' u (s($3,$4)):(s($3,$4)*d($9)) t 'du1'
+
+
+pause -1

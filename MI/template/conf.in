@@ -1,0 +1,21 @@
+Method:/name//nuber_of_parameters/parameters(main_step/sub_step/break)/ 1
+WIDOM 3 10000 10000 1400
+Save: 2
+Natoms 0
+make_pic 7 1000 0 0 0 100 50 50
+Options:
+EQUILIBRATE_VAC 0 2 12 2 1
+RESERVUARS 0
+Memory_Size:
+50 25 25
+Interaction_radious:/rmin_rmax_cell_wektor||sprawdza_czy_sfera_wystaje/
+1.6 1.8 1.5 1.5 1.5
+Region_area:/</
+0 0 0 100 50 50
+Simulation_area:/</
+0 0 0 100 50 50
+Boundary_conditions:?energy_atoms?/<0/=0/0<vec_transition
+100 50 50 100 50 50
+Build_starting_structure:ile?yes?no/st_end_from/
+1 1
+start.in 0 0 0 100 50 50 0 0 0 0

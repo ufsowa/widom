@@ -1,0 +1,22 @@
+#!/bin/env bash
+
+#skrypt uruchamia symulacje w katalogach symulacji
+echo "Uruchamiam symulacje..."
+
+
+#cp -p ./srednia/template/* ./
+#cd ./u*
+#for i in ./u*; do
+#    cd $i
+#    echo $i
+    for j in ./u*; do
+        cd $j
+        tmp=$(qsub run_sim)
+        echo $tmp >> ../jobs_id
+        cd ..
+    done
+#    cd ..
+#done
+
+#qstat -u ufsowa
+

@@ -1,0 +1,16 @@
+#!/bin/bash 
+
+pth="$PWD"		#/template/"
+FILE="conf.in"
+simdir="$pth/data"
+tplt="$pth/template"
+
+cd $simdir
+
+for x in stech_*; do
+    cd $x
+    qsub run_sim
+    cd ..
+done
+
+cd $pth

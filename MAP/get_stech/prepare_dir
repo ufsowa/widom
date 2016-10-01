@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+
+cd ../data
+
+for s in ./S*;do
+    cd $s/results
+    for i in u*; do
+#    val=${i#path}
+    val=${i%.dat}
+    echo $val
+    cd ..
+    mkdir $val
+    cp ./results/$i $val/map.dat
+    cd results
+    done
+    cd ../../
+done

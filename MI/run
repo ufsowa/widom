@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+total=0
+for j in stech_*; do
+    cd $j
+    iter=0
+    for i in sample*; do
+        cd $i
+        qsub run_sim
+        ((iter++))
+        ((total++))
+        cd ..
+    done
+    echo $j $iter
+    cd ..
+done
+
+echo $total

@@ -1,0 +1,59 @@
+#!/bin/bash
+
+echo "Sprawdzam wykonanie symulacji..."
+
+
+for i in {Q,R,E}; do
+    control=1
+    echo $i
+    while [ $control -eq 1 ]; do
+        iter=0
+        zadanie=()
+        sleep $1
+	for j in `cat ./jobs_id`; do
+	    name=${j%%.*}
+#	    echo $name
+	    war=`qstat -u $USER | grep $name | grep $i`
+	    if [ -z "$war" ]; then
+		control=0
+#		echo "$name jest $i $control"
+	    else
+		control=1
+#		echo "$name jest $i $control"
+	    fi
+	    zadanie[$iter]=$control
+	    ((iter++))
+	done
+#	echo "Sprawdzam zadania:"
+	control=0
+	for k in "${zadanie[@]}"; do
+#	    echo $k
+	    if [ $k -eq 1 ]; then
+		control=1
+	    fi
+	done
+    done
+done
+
+
+
+#        control=`[ -e $myfile ] && echo "1" || { echo $name >> ../$out_file1; echo "0"; }`
+#        if [ $control -eq 1 ]
+#        then
+    #	echo $control
+#	    [ ! -s $myfile ] && echo $name >> ../$out_file2
+#	else
+#	    repeat=$control
+#	fi
+#	cd ..
+#    done
+#    cat $out_file1 >> ../$out_file1
+#    cat $out_file2 >> ../$out_file2
+#    cd ..
+#done
+#if [ $repeat -eq 1 ]
+#then 
+#    echo "Wyniki.dat present in all folders" > simulation_checked
+#    echo "Results colud be not saturated" >> simulation_checked
+#fi
+

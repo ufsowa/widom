@@ -1,0 +1,36 @@
+#!/bin/bash
+
+echo "Generuje sciezke..."
+
+#cat path.dat > path.old
+#rm path.dat
+stpth=$PWD
+
+cd ..
+
+for i in ./u*; do
+    war=`expr "$i" : '.*\(stech\)'`
+    if [ "$war" = "" ]; then	
+     if [ -d $i ]; then
+	cp -p $stpth/cal_*  $i
+	cd $i
+#	i=${i#./u}
+#	echo $i
+#	cat stech.dat >> ../path.dat
+	qsub -v stech=$1 cal_path
+	cd ..
+     fi
+    fi
+done
+
+cd $stpth
+
+
+#echo "Sortuje.."
+#sort -n -k 1,1 -k 2 path.dat > tmp.dat
+#cat tmp.dat > path.dat
+#rm tmp.dat
+
+#tac path.dat > tmp
+#cat tmp > path.dat
+#rm tmp

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+module load libs/python-matplotlib
+
+for i in *.xyz; 
+do 
+    
+    numer=${i%%.xyz};
+    name=${i##./}
+    output=${numer}sro.dat
+    echo $name
+    ./sro.py $i $output 1 0.0 $numer
+    to_sort=*${output}
+    for j in $(echo ${to_sort}); do
+	sort -n -k1,1 $j > tmp
+	mv tmp $j
+    done
+done;

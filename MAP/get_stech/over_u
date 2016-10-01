@@ -1,0 +1,48 @@
+#!/bin/bash
+
+start=$PWD
+
+
+cd ../data
+
+
+for t in ./S*; do
+    cd $t
+    mkdir get_stech
+    cp -R $start/fit* ./fit_stech/
+    cp path.dat ./fit_stech/path.dat
+    
+    echo $PWD
+    cd fit_stech
+    ./fit
+    cd ../../
+
+#    mv up.dat path_up.dat
+#    rm -R u*
+#     ./collect_data
+    
+#    cd ..
+#    for i in ./u*; do
+#    cp ./fit_stech/* $i
+    
+#    cd $i
+#    ./get_chem
+#    ./fit_path
+#    ./add_files
+#    echo $PWD
+#    qsub -v sr=1,pth=0,stech=0 cal_run_sr
+#    cd ..
+#done
+
+done
+
+cd $start
+
+#screen -dmS "main"
+
+#for i in ./T*; do
+#    Sfile=${i#./}
+#    screen -S main -X screen -t $Sfile ./running_inter $Sfile
+#done
+
+

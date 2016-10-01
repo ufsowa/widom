@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+
+TO=$PWD
+TEMPLATE=${PWD}"/template"
+
+for i in sample*; do
+#    num=${i##sample}
+#    cp ${TEMPLATE}/* $i
+#    cp skrypty/* .
+#    ./cal_sr
+#    ./cal_mi
+#    ./cal_avg
+    cd $i
+    sed -i 's/#PBS -N widom/#PBS -N wdm'$num'/' run_sim
+    mv *.xyz start.in
+#    qsub run_sim
+    cd ..
+done

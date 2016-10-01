@@ -1,0 +1,29 @@
+#!/bin/bash 
+echo "Zaczynam fitowac..."
+
+export LC_ALL=C
+
+#module load python/2.7.8
+#module add libs/python
+
+module add libs/python-numpy
+module add libs/python-scipy
+
+start_path=$PWD
+script_path=$start_path/scripts
+
+cd data
+
+for kat in ./S*; do
+    stech=${kat##./S}
+    cd $kat
+    cp ${script_path}/* .
+    ./cal_path.py $stech
+    cd ..
+done
+
+cd ..
+
+
+
+

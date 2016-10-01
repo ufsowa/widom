@@ -1,0 +1,39 @@
+#!/bin/bash 
+#PBS -N avg_path
+#PBS -l nodes=1:ppn=1,walltime=00:10:00,mem=128M
+#PBS -l walltime=00:10:00
+#PBS -q l_short
+
+export LC_ALL=C
+
+#module load python/2.7.8
+#module add libs/python
+
+module add libs/python-numpy
+module add libs/python-scipy
+
+
+cd $PBS_O_WORKDIR
+if [ $sr -eq 1 ]; then
+    ./cal_sr
+fi
+
+if [ $pth -eq 1 ]; then
+echo "Zaczynam fitowac..."
+    ./cal_path.py $stech
+    cp stech.dat ../tmp_stech
+    cat stech.dat >> ../path.dat
+fi
+
+if [ $pth -eq 1 ]; then
+    if [ -e stech.dat ] && [ -s stech.dat ]; then
+	echo "" > SR_END
+	rm -R ./u*
+    fi
+fi
+
+if [ $pth -eq 0 ]; then
+    if [ -e map.dat ] ; then
+	echo "" > SR_END
+    fi
+fi

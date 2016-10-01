@@ -1,0 +1,18 @@
+#!/bin/bash 
+#PBS -N STECH
+#PBS -l nodes=1,walltime=24:00:00
+#PBS -q long
+
+#module load tools/openmpi
+
+echo 'PBS nodes:'
+cat $PBS_NODEFILE
+
+#cp $PBS_O_WORKDIR/* $TMPDIR
+#cd $TMPDIR
+cd $PBS_O_WORKDIR
+echo $PBS_JOBID > jobid
+./mcdif_* conf.in
+
+#mv $TMPDIR/* $PBS_O_WORKDIR
+

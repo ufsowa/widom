@@ -1,0 +1,27 @@
+#!/bin/bash
+
+export LC_ALL=C
+
+#start=$PWD
+
+#for i in path*; do
+#    cd ..
+#    for j in ./u*; do
+#	cd $j
+#	rm avg_path*
+#	cat $i >> ../$i
+#	cd ..
+#    done
+#    cd $start
+#done
+
+
+for i in stech*; do
+    cat $i >> stech_to_sim
+    sort -n -k 1,1 stech_to_sim > tmp.dat
+    cat tmp.dat > stech_to_sim
+    rm tmp.dat
+#    tac $i > tmp
+#    cat tmp > $i
+#    rm tmp
+done

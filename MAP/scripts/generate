@@ -1,0 +1,114 @@
+#!/bin/bash
+
+#Skrypt do generowania katalogow do symulacji path
+#trzeba ustawic chemst1, chemst2, N, delta
+
+#echo $1, $2, $3, $4
+#zainiciuj potencjaly chem1 i chem2
+chemst1=$1
+chemst2=$2
+#zdefiniuj zakreszmian chem2
+delta=$3 #co ile ma siezmienic chem2
+N=$4     #ile razy ma sie zmienic chem2
+TEMP=$5
+add_name=$6
+# N*delta -> +/- sprawdzany przedzial wokol chemst2
+
+#echo "Generuje katalogi..."
+
+#definicje funkcji
+#################################
+format()
+{
+LC_NUMERIC=C # zmienna srodowika bash zmieniana z przecinkow na kropki
+
+for tmpchem2 in $(printf "%1.4f\n" "$1");do		#sformatowanie wyniku przy pomcy komendy ->printf<-
+    chemst2=$tmpchem2
+    done
+}
+##################################
+generate()
+{
+    myfile="u"$1"u"$2
+    #utworz katalog symulacji
+    mkdir $myfile
+    #skopij zawartosc katalogu tamplate do kat. symulacji
+    cp ../template/* ./$myfile
+    #wejdz do katalogu symulacji
+    cd $myfile
+    #edytuj plik chem.in
+    sed -e 's/potencialy/'$chem1' '$chem2'/' chem.in > temp.in
+    cat temp.in > chem.in
+    rm temp.in
+    #edytuj plik conf.in
+    sed -e 's/TEMPERATURA/'${TEMP//[!0-9]}'/' conf.in > temp.in
+    cat temp.in > conf.in
+    rm temp.in
+    #edytuj plik uruchomieniowy
+#    sed 's/^#PBS -N name/#PBS -N '$myfile'/' run_sim > tmp
+#    cat tmp > run_sim
+#    rm tmp
+    #wroc do katalogu uruchomieniowego
+    cd ..
+
+}
+##################################
+#koniec definicji funkcji
+
+####### Zmienne ##########
+
+chemname="u"$chemst1"u"$chemst2$add_name
+mkdir $chemname
+cd $chemname
+#ustaw chemst2 na poczatek przedzialu
+half=`echo $[$N/2]`
+rawchem2=$(echo "${chemst2}-${half}*${delta}" | bc)		#dodawanie mnozenie odejmowanie zmiennych w kalkulatorze ->bc<-
+format $rawchem2 #wywolaj funkcje format() -> wklej zawartosc funkcji w tym miejscu
+#echo $chemst2
+
+
+
+####### Generuj ###########
+for ((i=0; $i <= $N; i++)) do
+    chem1=$chemst1
+    chem2=$chemst2
+    generate $chem1 $chem2
+    rawchem2=$(echo "${chem2}+${delta}" | bc)		#zwiekszam chem2 o delta
+    format $rawchem2 					#zmieniam formatowanie z ',' -> '.'
+    #echo $chem1,$chem2
+done
+cd ..
+
+echo $chemname
+# KONIEC #
+####### pozostalosci ########
+#wczytuje kolumny do zmiennych
+#listaA=`awk '{print $1}' chem.dat`
+#listaB=`awk '{print $2}' chem.dat`
+
+#iter1=0
+#iter2=0
+
+#for i in $listaA; do
+ #   ((iter1++))
+  #  iter2=0
+  #  for j in $listaB; do
+  #  ((iter2++))
+  #  if [ $iter1 -eq $iter2 ]; then
+#	#echo $i,$j
+#	chem1=$i
+#	chem2=$j
+#	
+ #  fi
+  #  done
+#done
+
+#while read line
+#do
+#    len=`expr index "$line" " "`
+    #echo $len
+#    chem2=${line:$len}
+#    ((len--))
+#    chem1=${line:0:$len}
+#    echo $chem1,$chem2,
+#done < chem.dat

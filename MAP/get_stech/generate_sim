@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+
+#cd ../results
+
+iter=0
+for i in path*_avg; do
+    val=${i#path}
+    val=${val%.dat_avg}
+    name=S$val
+#    mod=$(awk "BEGIN {printf \"%1.3f\", $iter%7; exit}")
+#    todo=`echo | awk -v n1=$mod '{if(n1==0.0) printf("%s", 1); else printf("%s", 0);}'`
+#    echo $iter $mod $todo
+#    if [[ $todo -eq 1 ]]; then
+#	echo $name $todo
+	cd ..
+	mkdir $name
+	tac ./get_stech/$i > $name/start_chem
+	cd get_stech
+#    fi
+#    ((iter++))
+done
+
+

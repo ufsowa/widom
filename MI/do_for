@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+
+TO=$PWD
+TEMPLATE=${PWD}"/template"
+
+SAMPLE=${TO##*/}
+
+if [ $1 == "g" ]; then
+for i in sample*; do
+    num=${i##sample}
+    cp ${TEMPLATE}/* $i
+    cd $i
+    sed -i 's/#PBS -N widom/#PBS -N '${SAMPLE}'wdm'${num}'/' run_sim
+#    if [ -e *.xyz ];then mv *.xyz start.in; fi
+    cd ..
+done
+fi
+
+if [ $1 == "c" ];then
+cp -rf skrypty/* .
+./cal_sr
+./cal_mi
+./cal_avg
+fi

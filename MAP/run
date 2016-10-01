@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#skrypt uruchamia symulacje w katalogach symulacji
+echo "Uruchamiam symulacje..."
+
+#cp -p ./srednia/template/* ./
+
+#start_path=$PWD
+
+#sim_dir=$start_path/data/$1
+
+#script_path=$start_path/scripts
+#template_path=$start_path/template
+
+
+#rm -r data
+#mkdir data
+
+
+cd data
+
+for kat in ./S*; do
+    cd $kat
+	for sim in u*; do
+	    cd $sim
+	    qsub run_sim $1>jobid
+	    cat jobid >> ../jobs
+	    cd ..
+	done
+    cd ..
+done
+
+cd ..

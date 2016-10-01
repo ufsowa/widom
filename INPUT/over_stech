@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+#VARIABLES
+NAME="sample"
+SOURCE=${PWD}"/../GEN/data/"
+TO="${PWD}"
+TEMPLATE=${PWD}"/template"
+
+#echo "
+
+cd ${SOURCE}
+for i in stech*; do
+    dirr="${TO}/$i"
+    mkdir $dirr
+    cd $i
+    licz=0; iter=0; lasti=0;
+    for j in *.xyz; do
+	licz=${j%%pic*}
+	licz=${licz#_}
+#	echo $licz $lasti
+	if [ $licz -gt $lasti ]; then
+	    lasti=$licz
+	fi
+    done
+	name="_"$lasti"pic.xyz"
+	cp $name $dirr/start.in
+    echo $i $name
+    cd ${SOURCE}
+done
+
+#" > tmp; rm tmp
+
+cd $TO
+for i in stech*; do
+    rm -r $i/template
+    cp -r ${TEMPLATE}/* $i
+    cp -r skrypty do_for $i
+    cd $i; ./do_for; cd ..;
+done
+

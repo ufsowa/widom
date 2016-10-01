@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+format()
+{
+    LC_NUMERIC=C # zmienna srodowika bash zmieniana z przecinkow na kropki
+
+    for tmpchem2 in $(printf "%1.3f\n" "$1");do		#sformatowanie wyniku przy pomcy komendy ->printf<-
+    stech=$tmpchem2
+    done
+}
+
+#for i in path*; do
+#    val=${i#path}
+#    val=${val%.dat}
+#    echo $val
+#    awk -v NUMBER=$val '{if($3 == NUMBER && $4 < 0.3) print >> "tmp.dat" }' $i
+#    mv tmp.dat $i
+#done
+
+stech=1.5
+delta=0.1
+N=0	#1.6
+
+rm stech_to_sim
+
+tmpstech=$(echo "${stech}-${delta}" | bc)
+format $tmpstech
+
+for ((i=0; $i <= $N; i++)); do
+    tmpstech=$(echo "${stech}+${delta}" | bc)
+    format $tmpstech
+    echo $stech >> stech_to_sim
+done
+
+awk  '{if(NR > 0) printf "%.3f %.4f\n", $1,$1/(1.0+$1) >> "tmp" }' stech_to_sim
+mv tmp stech_to_sim

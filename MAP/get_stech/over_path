@@ -1,0 +1,42 @@
+#!/bin/bash
+
+export LC_ALL=C
+
+start=$PWD
+
+rm *_avg
+
+for i in path*; do
+    val=${i#path}
+    val=${val%.dat}
+    echo $val
+    cv=0.4
+
+    awk -v stech=$cv '{if($4<stech){print $0}}' $i > tmp
+    mv tmp $i
+
+#    sort -n -k 1,1 -k 2,2 $i > tmp
+#    mv tmp $i    
+    
+    awk -v stech=$val 'BEGIN{sumu1=0;sumu2=0;u1=0;items=0;}
+    {if(NR==1){
+    u1=$1;u2=$2;
+    };
+    if($1==u1){
+    sumu1+=$1;sumu2+=$2;items++ }
+    else {
+    print sumu1/items, sumu2/items, stech;
+    sumu1=$1;sumu2=$2;u1=$1;items=1;
+    }};
+    END{
+    print sumu1/items, sumu2/items, stech;
+    sumu1=0;sumu2=0;u1=0;items=0;
+    }
+    ' $i > ${i}_avg
+done
+
+rm map.dat
+for i in *_avg; do
+    cat $i >> map.dat
+    echo "" >> map.dat
+done

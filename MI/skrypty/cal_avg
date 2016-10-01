@@ -1,0 +1,14 @@
+#!/bin/bash
+
+./cal_avg.py mi.dat #ilosc wierszy ktore obcina
+cat sr.dat >> ../total.dat
+
+cd ..
+echo "Sortuje.."
+sort -n -k 1,1 -k 2,2 -k 3,3 total.dat > tmp.dat
+cat tmp.dat > total.dat
+rm tmp.dat
+
+
+
+

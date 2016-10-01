@@ -1,0 +1,14 @@
+ 
+files="zstech_0.2sro.dat zstech_0.4sro.dat zstech_0.6sro.dat zstech_0.8sro.dat"
+plot 'zstech_0.8sro.dat' u 1:($5/($4+$5)) w lp,'zstech_0.8sro.dat' u 1:($4/($4+$5)) w lp,'zstech_0.8sro.dat' u 1:($3/($3+$4+$5)) w lp
+#plot './E.dat' u 1:3
+#plot './N.dat' u 1:(($5+$6)/($5+$6+$7+$8)) #,'/N.dat' u 1:(($5+$6)/($7+$8))
+#plot './N.dat' u 1:(($3+$4)/($3+$4+$5+$6+$7+$8)),'/N.dat' u 1:(($3+$4)/($3+$4+$5+$6+$7+$8))
+#plot for [ name in files ] name u 1:($4/($4+$5)) w lp 
+#plot for [ name in files ] name u 1:($5/($4+$5)) w lp
+
+#name u 1:($3/($3+$4+$5)) w lp
+
+pause -1
+
+

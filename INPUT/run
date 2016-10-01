@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+for i in stech*; do
+    cd $i
+    qsub run_sim
+    cd ..
+done

@@ -1,0 +1,64 @@
+#!/bin/bash
+
+edytuj()
+{
+    #edytuj plik chem.in
+    sed -e 's/potencialy/'$chem1' '$chem2'/' chem.in > temp.in
+    cat temp.in > chem.in
+    rm temp.in
+    #edytuj plik conf.in
+    sed -e 's/TEMPERATURA/'$1'/' conf.in > temp.in
+    cat temp.in > conf.in
+    rm temp.in
+    sed -e 's/STECH/'$2'/' conf.in > temp.in
+    cat temp.in > conf.in
+    rm temp.in
+
+    #edytuj plik uruchomieniowy
+    sed 's/^#PBS -N name/#PBS -N s'$2'u'$chem1'/' run_sim > tmp
+    cat tmp > run_sim
+    
+    rm tmp
+
+}
+
+
+echo "Tworze strukture katalogow..."
+
+LC_NUMERIC=C		#ustawienie kodowania dla powloki bash LC_NUMERIC - zmienna wbudowana powloki
+
+
+start_path=$PWD
+
+#1000.000000 300.000000 6190.000000 24760.000000 -0.602509 -0.482747 -0.602718 -0.483303 -0.6027086000 0.0009095816 -0.4832966000 0.0003325902
+
+while read temp v a b x1 x2 x3 x4 c1 r1 c2 r2; do
+
+    u1=`awk -v mi=$c1 'BEGIN{printf "%1.4f", mi}'`
+    u2=`awk -v mi=$c2 'BEGIN{printf "%1.4f", mi}'`
+    d1=`awk -v mi=$r1 'BEGIN{printf "%1.4f", mi}'`
+    d2=`awk -v mi=$r2 'BEGIN{printf "%1.4f", mi}'`
+    stech=`awk -v A=$a -v B=$b 'BEGIN{printf "%1.3f", A/(A+B)}'`
+    Temp=`awk -v mi=$temp 'BEGIN{printf "%5.1f", mi}'`
+    rm chem1.in chem2.in;
+    awk -v mi=$u1 -v s=$d1 -v d=5 'BEGIN{step=s/d;L=mi-s;R=mi+s;for(i=L;i<=R;i+=step){printf "%1.4f\n", i >> "chem1.in"}}'
+    awk -v mi=$u2 -v s=$d2 -v d=5 'BEGIN{step=s/d;L=mi-s;R=mi+s;for(i=L;i<=R;i+=step){printf "%1.4f\n", i >> "chem2.in"}}'
+    echo $stech
+    sim_dir=$start_path/data/S$stech
+    script_path=$start_path/scripts
+    template_path=$start_path/template
+
+    mkdir $sim_dir
+
+    while read chem1; do
+	while read chem2; do
+	sim=${sim_dir}/u${chem1}u${chem2}
+	mkdir $sim
+	cp  $template_path/* $sim
+	cd $sim
+        edytuj $Temp $stech 
+        cd $start_path
+	done < chem2.in
+    done < chem1.in
+done < total.dat
+

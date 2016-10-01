@@ -1,0 +1,21 @@
+#!/bin/bash
+
+rm results.dat
+
+for i in ./sample*; do
+    cp -p ./cal_sr.py $i
+    cd $i
+    ./cal_sr.py 500 widom.dat #ilosc wierszy ktore obcina
+    cat sr.dat >> ../results.dat
+    cd ..
+done
+
+echo "Sortuje.."
+sort -n -k 2,2 results.dat > tmp.dat
+cat tmp.dat > results.dat
+rm tmp.dat
+
+#cat map.dat >> ../path.dat
+
+
+

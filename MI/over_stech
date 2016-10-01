@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+#VARIABLES
+NAME="sample"
+SOURCE="$PWD/../INPUT/"
+TO=$PWD
+TEMPLATE=${PWD}"/template"
+
+
+cd $TO
+rm total.dat
+for i in stech*; do
+    cp -fr skrypty do_for $i
+    cd $i; ./do_for "c" ; cd ..;
+done
+

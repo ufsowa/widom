@@ -1,0 +1,43 @@
+#!/bin/bash
+
+format()
+{
+LC_NUMERIC=C # zmienna srodowika bash zmieniana z przecinkow na kropki
+
+for tmpchem2 in $(printf "%1.3f\n" "$1");do		#sformatowanie wyniku przy pomcy komendy ->printf<-
+    stech=$tmpchem2
+    done
+}
+
+#stech=0.965
+#delta=0.001
+#N=150
+
+#for ((i=0; $i <= $N; i++)) do
+#    tmpstech=$(echo "${stech}+${delta}" | bc)
+#    format $tmpstech
+#    echo $stech
+#    ./gen_path $stech
+#done
+
+start=$PWD
+
+cd ../data
+
+for i in ./S*;do
+    cp -R $start $i
+    cd $i/get_stech
+    while read first second ; do
+    ./gen_path $first
+    done < stech_to_sim
+    cd ../../
+done
+
+#echo "Sortuje.."
+#sort -n -k 1,1 -k 2 path.dat > tmp.dat
+#cat tmp.dat > path.dat
+#rm tmp.dat
+
+#tac path.dat > tmp
+#cat tmp > path.dat
+#rm tmp

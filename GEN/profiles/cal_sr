@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Sredniuje..."
+
+
+#for name in ./*sro.dat; do
+#    nfile=${name#./}
+#    echo $nfile
+#    ./cal_sr.py $nfile nul 1.0 0.0009 #ilosc wierszy ktore obcina
+#done
+
+lista=`ls *sro.dat`
+ile=`echo "$lista" | awk 'END{print NR}' `
+./cal_sr_all.py $ile $lista 0.01 1.0 0.001 > log.sr

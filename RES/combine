@@ -1,0 +1,34 @@
+#!/bin/bash
+
+export LC_ALL=C
+
+rm results.dat all.dat total.dat
+
+for i in *.mi; do
+    cat $i >> results.dat
+done
+
+for i in *.total; do
+    cat $i >> total.dat
+done
+
+for i in *.all; do
+    cat $i >> all.dat
+done
+
+sort -n -k 3,3 total.dat > tmp.dat
+cat tmp.dat > total.dat
+    rm tmp.dat
+
+
+    sort -n -k 5,5 results.dat > tmp.dat
+    cat tmp.dat > results.dat
+    rm tmp.dat
+
+    sort -n -k 3,3 all.dat > tmp.dat
+    cat tmp.dat > all.dat
+    rm tmp.dat
+
+
+
+

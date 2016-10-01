@@ -1,0 +1,6 @@
+#!/usr/bin/env gnuplot
+
+plot 'path0.9608.dat'  u 1:2 w lp, 'path1.1739.dat'  u 1:2 w lp
+
+
+pause -1

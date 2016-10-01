@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#skrypt uruchamia symulacje w katalogach symulacji
+echo "Przeliczam symulacje..."
+
+start_path=$PWD
+script_path=$start_path/scripts
+
+cd data
+
+for kat in ./S*; do
+    cd $kat
+    cp ${script_path}/* .
+    ./cal_sr
+    cd ..
+done
+
+cd ..

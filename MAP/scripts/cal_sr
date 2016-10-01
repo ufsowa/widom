@@ -1,0 +1,48 @@
+#!/bin/bash
+
+echo "Sredniuje..."
+
+rm map.dat
+
+for i in ./u*; do
+    cp -p ./cal_sr.py $i
+    cd $i
+    i=${i#./u}
+    len=`expr index "$i" "u"`
+    #echo $len
+    chem2=${i:$len}
+    ((len--))
+    chem1=${i:0:$len}
+    chem1=${chem1%00}
+    if [ -f started_qsub ]; then
+	licznik=0;
+	log=1;
+#	while [ ! -f error_log ]; do
+#	    sleep 30
+#	    ((licznik++))
+#	    if [ $licznik -gt 2 ]; then
+#		log=0;
+#		break;
+#	    fi
+#	done
+	if [ $log ]; then
+	    for name in ./*N.dat; do
+		nfile=${name#./}
+		echo $nfile
+		./cal_sr.py $chem1 $chem2 500 $nfile
+	    done
+	    cat sr.dat >> ../map.dat
+	fi
+    fi
+    cd ..
+done
+
+echo "Sortuje.."
+sort -n -k 1,1 -k 2 map.dat > tmp.dat
+cat tmp.dat > map.dat
+rm tmp.dat
+
+#cat map.dat >> ../path.dat
+
+
+

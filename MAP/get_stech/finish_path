@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+for i in path*; do
+    val=${i#path}
+    val=${val%.dat}
+    echo $val
+    awk -v NUMBER=$val '{if($3 == NUMBER && $4 < 0.3) print >> "tmp.dat" }' $i
+    mv tmp.dat $i
+done

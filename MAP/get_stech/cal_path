@@ -1,0 +1,21 @@
+#!/bin/bash 
+#PBS -N avg_path
+#PBS -l nodes=1:ppn=1,walltime=00:10:00,mem=128M
+
+export LC_ALL=C
+
+module add libs/python-numpy
+module add libs/python-scipy
+
+
+cd $PBS_O_WORKDIR
+
+#stech=$1
+#"1.01"
+
+echo "Zaczynam fitowac..."
+plik=`./cal_path.py $stech`
+
+cat $plik >> ../get_stech/path$stech.dat
+
+
