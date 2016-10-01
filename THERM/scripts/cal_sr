@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Sredniuje..."
+
+
+chem1=`awk '{print $1}' chem.in`
+chem2=`awk '{print $2}' chem.in`
+
+file1=`ls u*N.dat`
+file2=`ls u*sro.dat`
+
+num=`awk 'END{print int(NR/2)}' $file1`
+
+echo $file1 $file2 $num
+./cal_sr.py $chem1 $chem2 $num $file1 $file2
+cat sro.dat >> ../../sro.dat
+
+
+

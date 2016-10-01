@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+
+while read line; do
+    iter=0
+    name="u"
+    for i in $line; do
+	if [ $iter -eq 0 ]; then
+    	name=S${i%000*}
+	mkdir $name
+	echo $line > $name/avarage
+	break
+    	fi
+	((iter++))
+    done
+#    cp ./mi/* $name
+done < T_1600.dat
+
+#0.650000 5199.361034 331.159226 9945.866612 177.515842 479.772354 15116.324932 -0.622545 -0.337020 -0.001297
+#   1		2	3		4	5	6		7		8	9	10
+
+#pthUP="../SGCMC_S1.0/data/"
+#pthBACK="../BACK_S1.0/data/"
+#for i in ./T*; do
+#    name=${i#./}
+#    getup=$pthUP$name/path_up.dat
+#    getback=$pthBACK$name/down.dat
+#    cp $getup $i/up_row.dat
+#    cp $getback $i/back_row.dat
+#done
+

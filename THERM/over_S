@@ -1,0 +1,46 @@
+#!/bin/bash
+
+rm *.dat
+
+
+start=$PWD
+cd data
+for i in ./S*; do
+    cp ../scripts/cal_sr* $i
+    cp ../scripts/cal_F $i
+    cp ../scripts/cal_F.py $i
+    #cd $i/results
+    #./collect_data
+    #cd ../../
+    
+        #cat $i/path.dat >> map1.dat
+	#echo "" >> map1.dat    
+	#cd $i/get_stech
+	#for j in path*; do
+	#cat $j >> $start/get_stech/$j
+	#done
+	#mv up.dat path_up.dat
+	#rm -R u*
+    
+#
+#    cp ./fit_stech/* $i
+#    name=${i#./S}
+    cd $i
+    ./cal_sr
+    ./cal_F
+#    cp path.dat $start/$name/path.dat
+#    cp up.dat $start/$name/up.dat
+#    ./finish_path $name
+#    ./get_chem
+#    ./fit_path
+#    ./add_files
+#    tac chem.in > tmp
+#    mv tmp chem.in
+    cd ..
+done
+
+
+
+
+
+
